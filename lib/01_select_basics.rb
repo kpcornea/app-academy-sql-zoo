@@ -101,6 +101,13 @@ def just_the_right_size
   # Show the country and the area in 1000's of square kilometers for countries
   # with an area between 200,000 and 250,000.
   # BETWEEN allows range checking - note that it is inclusive.
+  # BETWEEN just a faster/more idiomatic way of doing >= AND <=. also can't write comments in execute block/heredoc apparently
   execute(<<-SQL)
+    SELECT
+      name, area/1000
+    FROM
+      countries
+    WHERE
+      area BETWEEN 200000 AND 250000
   SQL
 end
