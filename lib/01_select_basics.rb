@@ -32,10 +32,21 @@ def select_population_of_germany
   SQL
 end
 
+# not really helpful as output is not very readable
+def show_all
+  execute(<<-SQL)
+    SELECT
+      *
+    FROM
+     countries
+  SQL
+end
+
 def per_capita_gdp
   # Show the name and per capita gdp (gdp/population) for each country where
   # the area is over 5,000,000 km^2
   execute(<<-SQL)
+
   SQL
 end
 
@@ -50,6 +61,7 @@ def scandinavia
   # Show the name and the population for 'Denmark', 'Finland', 'Norway', and
   # 'Sweden'
   execute(<<-SQL)
+
   SQL
 end
 
