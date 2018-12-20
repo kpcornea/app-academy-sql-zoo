@@ -134,5 +134,55 @@ def sparse_continents
   # population.
   # Hint: Sometimes rewording the problem can help you see the solution.
   execute(<<-SQL)
+    SELECT
+      name, continent, population
+    FROM
+      countries
+    WHERE
+      continent = (
+      SELECT
+        continent
+      FROM
+        countries
+      EXCEPT
+          (
+          SELECT
+            continent
+          FROM
+            countries
+          WHERE
+            population > 25000000
+          )
+      )
+  SQL
+end
+
+# probably refer to how they solved it for this one. this works but pretty clunky.
+def test_sparse
+  # Find every country that belongs to a continent where each country's
+  # population is less than 25,000,000. Show name, continent and
+  # population.
+  # Hint: Sometimes rewording the problem can help you see the solution.
+  execute(<<-SQL)
+    SELECT
+      name, continent, population
+    FROM
+      countries
+    WHERE
+      continent = (
+      SELECT
+        continent
+      FROM
+        countries
+      EXCEPT
+          (
+          SELECT
+            continent
+          FROM
+            countries
+          WHERE
+            population > 25000000
+          )
+      )
   SQL
 end
