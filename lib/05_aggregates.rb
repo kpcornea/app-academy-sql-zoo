@@ -81,11 +81,43 @@ def populous_country_counts
   # For each continent show the continent and number of countries with
   # populations of at least 10 million.
   execute(<<-SQL)
+    SELECT
+      continent, COUNT(name)
+    FROM
+      countries
+    WHERE
+      population >= 10000000
+    GROUP BY
+      continent
   SQL
 end
 
 def populous_continents
   # List the continents that have a total population of at least 100 million.
   execute(<<-SQL)
+  SQL
+end
+
+
+# it was >= not > lol. tricky...
+def show_middle_east
+  execute(<<-SQL)
+    SELECT
+      name, population / 1000000
+    FROM
+      countries
+    WHERE
+      continent = 'Middle East'
+  SQL
+end
+
+def show_tunisia
+  execute(<<-SQL)
+    SELECT
+      continent, population
+    FROM
+      countries
+    WHERE
+      name = 'Tunisia'
   SQL
 end
