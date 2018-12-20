@@ -53,11 +53,23 @@ def ford_films
   SQL
 end
 
+# i think i prefer without table name when referring to specific column, but idk if it's just up to personal preference or if listing table name is actually better
 def ford_supporting_films
   # List the films where 'Harrison Ford' has appeared - but not in the star
   # role. [Note: the ord field of casting gives the position of the actor. If
   # ord=1 then this actor is in the starring role]
   execute(<<-SQL)
+    SELECT
+      title
+    FROM
+      movies
+    JOIN
+      castings ON movies.id = castings.movie_id
+    JOIN
+      actors ON castings.actor_id = actors.id
+    WHERE
+      name = 'Harrison Ford' AND
+      ord > 1
   SQL
 end
 
