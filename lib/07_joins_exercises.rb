@@ -115,6 +115,36 @@ def andrews_films_and_leads
   # List the film title and the leading actor for all of the films 'Julie
   # Andrews' played in.
   execute(<<-SQL)
+    SELECT
+      title, name
+    FROM
+      movies
+    JOIN
+      castings ON movies.id = castings.movie_id
+    JOIN
+      actors ON castings.actor_id = actors.id
+    WHERE
+      ord = 1 AND
+      name IN
+      (
+      SELECT
+        name
+      FROM
+        movies
+      JOIN
+        castings ON movies.id = castings.movie_id
+      JOIN
+        actors ON castings.actor_id = actors.id
+      WHERE
+        actor_id = (
+                  SELECT
+                    id
+                  FROM
+                    actors
+                  WHERE
+                    name = 'Julie Andrews'
+                  )
+      )
   SQL
 end
 
@@ -135,5 +165,44 @@ end
 def colleagues_of_garfunkel
   # List all the people who have played alongside 'Art Garfunkel'.
   execute(<<-SQL)
+  SQL
+end
+
+
+
+def test_andrews_films_and_leads
+  # List the film title and the leading actor for all of the films 'Julie
+  # Andrews' played in.
+  execute(<<-SQL)
+    SELECT
+      title, name
+    FROM
+      movies
+    JOIN
+      castings ON movies.id = castings.movie_id
+    JOIN
+      actors ON castings.actor_id = actors.id
+    WHERE
+      ord = 1 AND
+      name IN
+      (
+      SELECT
+        name
+      FROM
+        movies
+      JOIN
+        castings ON movies.id = castings.movie_id
+      JOIN
+        actors ON castings.actor_id = actors.id
+      WHERE
+        actor_id = (
+                  SELECT
+                    id
+                  FROM
+                    actors
+                  WHERE
+                    name = 'Julie Andrews'
+                  )
+      )
   SQL
 end
