@@ -29,13 +29,19 @@ def example_query
     FROM
       movies
     WHERE
-      title = 'Doctor No'
+      title = 'Psycho'
   SQL
 end
 
 def films_from_sixty_two
   # List the films where the yr is 1962 [Show id, title]
   execute(<<-SQL)
+    SELECT
+      id, title
+    FROM
+      movies
+    WHERE
+      yr = 1962
   SQL
 end
 
