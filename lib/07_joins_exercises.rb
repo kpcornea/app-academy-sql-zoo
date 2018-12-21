@@ -152,6 +152,24 @@ def prolific_actors
   # Obtain a list in alphabetical order of actors who've had at least 15
   # starring roles.
   execute(<<-SQL)
+    SELECT
+      DISTINCT name
+    FROM
+      castings
+    JOIN
+      movies ON castings.movie_id = movies.id
+    JOIN
+      actors ON castings.actor_id = actors.id
+    GROUP BY
+      name
+    HAVING
+      COUNT(
+           SELECT
+
+
+        ) >= 15
+    ORDER BY
+      name
   SQL
 end
 
@@ -165,5 +183,82 @@ end
 def colleagues_of_garfunkel
   # List all the people who have played alongside 'Art Garfunkel'.
   execute(<<-SQL)
+  SQL
+end
+
+def test_prolific_actors
+  execute(<<-SQL)
+    SELECT
+      DISTINCT name
+    FROM
+      castings
+    JOIN
+      movies ON castings.movie_id = movies.id
+    JOIN
+      actors ON castings.actor_id = actors.id
+    WHERE
+      COUNT(
+        #in movie
+        SELECT
+          COUNT(movie_id)
+        FROM
+          castings
+        JOIN
+          movies ON castings.movie_id = movies.id
+        JOIN
+          actors ON castings.actor_id = actors.id
+        WHERE
+          actor_id = 592 AND
+          ord = 1
+        AND
+        #order = 1?
+        ) >= 15
+    ORDER BY
+      name
+  SQL
+end
+
+# i keep getting i think a count of all films the actor has been in, not only the ones where they star...apply technique from julie andrews to get list of all movies they star in and then count that subquery?
+def test2_prol
+  execute(<<-SQL)
+    SELECT
+      name, COUNT(actors.id = actor_id)
+    FROM
+      castings
+    JOIN
+      movies ON castings.movie_id = movies.id
+    JOIN
+      actors ON castings.actor_id = actors.id
+    GROUP BY
+      name
+    HAVING
+      COUNT(actors.id = actor_id) >= 15
+  SQL
+end
+
+# trying with 1 actor first
+# this works but how do i generalize it so that it can be used on all actors, not just a specific one i name?
+def test3_prol
+  execute(<<-SQL)
+    SELECT
+      title, name
+    FROM
+      castings
+    JOIN
+      movies ON castings.movie_id = movies.id
+    JOIN
+      actors ON castings.actor_id = actors.id
+    WHERE
+      name = 'Tom Hanks' AND
+      ord = 1
+  SQL
+end
+
+def show_castings
+  execute(<<-SQL)
+    SELECT
+      *
+    FROM
+      castings
   SQL
 end
